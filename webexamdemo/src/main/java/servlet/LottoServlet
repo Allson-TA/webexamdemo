@@ -1,0 +1,63 @@
+package servlet;
+
+import java.io.IOException;import java.io.LineNumberInputStream;
+import java.io.PrintWriter;
+import java.util.LinkedHashSet;
+import java.util.Random;
+import java.util.Set;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+//	網址 : .../servlet/lotto? count=5，表示要5個幸運數字
+//	網址 : .../servlet/lotto? count=1，表示要1個幸運數字
+//	網址 : .../servlet/lotto? count=0，表示要1個幸運數字
+
+@WebServlet(urlPatterns = "/servlet/lotto")
+public class LottoServlet extends HttpServlet {
+
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		
+		//	1.設定編碼 (才可以看中文)
+		req.setCharacterEncoding("UTF-8");
+		resp.setCharacterEncoding("UTF-8");
+		
+		//	文件格式 設定UTF-8-->給瀏覽器看得
+		resp.setContentType("text/html;charset=UTF-8");	//	html可以讓瀏覽器看的到標籤
+		//	resp.setContentType("text/plain;charset=UFT-8");	//	plain代表純文字
+		
+		//	回應物件
+		PrintWriter out = resp.getWriter();
+		
+		//	2.取得count參數
+		String countStr = req.getParameter("count");
+		
+		int count = 1;
+		
+		if(countStr != null) {
+			count = Integer.parseInt(countStr);
+			if(count == 0) {
+				count =1;
+			}
+		}
+		
+		//	3.取得count (1~10)不重複
+		Random random = new Random(10);
+		Set<Integer> nums = new LinkedHashSet<>();
+		while(nums.size() < count) {
+			nums.add(random.nextInt(10)+1);
+		}
+		
+		//	4.回應
+		out.print(String.format("%d 個幸運數字 %s", count,nums));
+		
+	}
+
+	
+	
+	
+}
