@@ -20,7 +20,7 @@ public class BMIServlet extends HttpServlet {
 		resp.setCharacterEncoding("UTF-8");
 		
 		//	文件格式 設定UTF-8-->給瀏覽器看得
-		resp.setContentType("text/html;charset=UFT-8");	//	html可以讓瀏覽器看的到標籤
+		resp.setContentType("text/html;charset=UTF-8");	//	html可以讓瀏覽器看的到標籤
 		//	resp.setContentType("text/plain;charset=UFT-8");	//	plain代表純文字
 		
 		//	回應物件
@@ -32,6 +32,8 @@ public class BMIServlet extends HttpServlet {
 		
 		//	預防有人亂控白
 		if(hstr == null || wstr == null) {
+			
+			//	回應內容
 			out.print("請在網址列上輸入身高體重");	//	條件成立 : 在瀏覽器上輸出的內容
 			return;
 		}
@@ -40,11 +42,9 @@ public class BMIServlet extends HttpServlet {
 		double h = Double.parseDouble(hstr);	//	文字字串要轉型
 		double w = Double.parseDouble(wstr);	//	文字字串要轉型
 		double bmi = w / Math.pow(h/100,2);
+		
+		//	4.回應內容
 		out.print("BMI = " + bmi);
 		
 	}
-
-	
-	
-	
 }
